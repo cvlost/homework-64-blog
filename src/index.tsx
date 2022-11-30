@@ -1,12 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import Blog from './Blog';
+import {BrowserRouter} from "react-router-dom";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
-  <React.StrictMode>
-    <Blog />
-  </React.StrictMode>
+
+    <BrowserRouter>
+      <Blog />
+    </BrowserRouter>
+
 );
