@@ -13,7 +13,7 @@ import './Blog.css';
 
 function Blog() {
   const [selectedId, setSelectedId] = useState('');
-  const [needUpdate, setNeedUpdate] =  useState(false);
+  const [needUpdate, setNeedUpdate] = useState(false);
 
   const requireUpdate = () => {
     setNeedUpdate(true);
@@ -47,13 +47,9 @@ function Blog() {
               />
             )}>
               <Route path="edit" element={
-                <div className="col">
-                  <h3>Details</h3>
-                  <div className="card shadow">
-                    <div className="card-body">
-                      <PostForm onEdit={requireUpdate}/>
-                    </div>
-                  </div>
+                <div className="col d-flex flex-column h-100 pb-3">
+                  <h3 className="py-3">Edit</h3>
+                  <PostForm onEdit={requireUpdate}/>
                 </div>}/>
             </Route>
           </Route>

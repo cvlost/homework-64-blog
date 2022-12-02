@@ -10,6 +10,7 @@ interface Props {
   switchImgSide: ChangeEventHandler<HTMLInputElement>
   saveChanges: MouseEventHandler;
   handleChange: React.ChangeEventHandler<HTMLTextAreaElement | HTMLInputElement>;
+  resetArticle: MouseEventHandler;
   isFetching: boolean;
   isEdit: boolean;
 }
@@ -21,16 +22,6 @@ const Article: React.FC<Props> = (props) => {
     border: 0,
     flex: '1 1 100px',
     minWidth: '100px',
-    marginLeft: '.3em',
-    width: '100%'
-  }
-
-  const editInputStyles: React.CSSProperties = {
-    backgroundColor: 'white',
-    border: '1px solid gray',
-    flex: '1 1 100px',
-    minWidth: '100px',
-    marginLeft: '.3em',
     width: '100%'
   }
 
@@ -40,15 +31,15 @@ const Article: React.FC<Props> = (props) => {
     <>
       <div className={`col d-flex ${props.imgLeft ? 'order-1' : ''}`}>
         <div className="custom-mw d-flex">
-          <div className="custom-mw m-auto">
+          <div className={`custom-mw m-auto ${props.isEdit ? 'shadow p-3 bg-white bg-opacity-25 rounded-3' : ''}`}>
             <h3 className="border-bottom border-3 mb-3 pb-2 d-flex">
               <input
                 type="text" name="title"
                 value={props.title}
                 onChange={props.handleChange}
                 disabled={!props.isEdit}
-                style={props.isEdit ? editInputStyles : inputStyles}
-                className={`${props.heroImg === '' ? '' : props.imgLeft ? '' : 'text-end order-1'}`}
+                style={props.isEdit ? {} : inputStyles}
+                className={`${props.heroImg === '' ? '' : props.imgLeft ? '' : 'text-end order-1'} ${props.isEdit ? 'form-control' : ''}`}
               />
               {!props.isEdit && (
                 <button className="btn btn-sm btn-link" onClick={props.turnEdit}>
@@ -58,41 +49,47 @@ const Article: React.FC<Props> = (props) => {
             </h3>
             {props.isEdit && (
               <>
-                <div>Hero image:
+                <div>
+                  <span>Image URL:</span>
                   <input
+                    className={`${props.isEdit ? 'form-control mb-2' : ''}`}
                     type="text" name="heroImg"
                     value={props.heroImg}
                     onChange={props.handleChange}
                     disabled={!props.isEdit}
-                    style={props.isEdit ? editInputStyles : inputStyles}
+                    style={props.isEdit ? {} : inputStyles}
                   />
                 </div>
                 {props.heroImg !== '' && (
-                  <label htmlFor="">
-                    Image on the left
+                  <div className="form-check mb-2">
                     <input
+                      className="form-check-input"
                       type="checkbox"
-                      name="imgLeft"
+                      id="ifImgOnLeft"
                       checked={props.imgLeft}
                       onChange={props.switchImgSide}
                     />
-                  </label>
+                    <label className="form-check-label" htmlFor="ifImgOnLeft">
+                      Image on the left side?
+                    </label>
+                  </div>
                 )}
               </>
             )}
             {props.isEdit ? (
               <>
                   <textarea
+                    className={`${props.isEdit ? 'form-control mb-3' : ''}`}
                     name="content"
                     value={props.content}
                     onChange={props.handleChange}
                     disabled={!props.isEdit}
-                    style={props.isEdit ? editInputStyles : inputStyles}
+                    style={props.isEdit ? {} : inputStyles}
                     rows={6}
                   />
-                <div className="d-flex gap-2">
+                <div className="d-flex gap-2 justify-content-center">
                   <button className="btn btn-sm btn-primary" onClick={props.saveChanges}>Save</button>
-                  <button className="btn btn-sm btn-secondary">Use defaults</button>
+                  <button className="btn btn-sm btn-secondary" onClick={props.resetArticle}>Use defaults</button>
                 </div>
               </>
             ) : (

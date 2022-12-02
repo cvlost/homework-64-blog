@@ -70,16 +70,6 @@ const Contacts = () => {
     flex: '1 1 100px',
     minWidth: '100px',
     marginLeft: '.3em',
-    width: '100%'
-  }
-
-  const editInputStyles: React.CSSProperties = {
-    backgroundColor: 'white',
-    border: '1px solid gray',
-    flex: '1 1 100px',
-    minWidth: '100px',
-    marginLeft: '.3em',
-    width: '100%'
   }
 
   if (fields !== null && !isFetching) {
@@ -92,14 +82,15 @@ const Contacts = () => {
             src={fields.heroImg} alt="avatar"/>
         </div>
         <div className="col col-12 col-md-6 d-flex">
-          <div className="custom-mw m-auto">
+          <div className={`custom-mw m-auto ${isEdit ? 'shadow p-3 bg-white bg-opacity-25 rounded-3' : ''}`}>
             <h3 className="border-bottom border-3 mb-3 pb-2 d-flex">
               <input
+                className={`${isEdit ? 'form-control' : 'w-100'}`}
                 type="text" name="title"
                 value={fields.title}
                 onChange={handleChange}
                 disabled={!isEdit}
-                style={isEdit ? editInputStyles : inputStyles}
+                style={isEdit ? {} : inputStyles}
               />
               {!isEdit && (
                 <button className="btn btn-link btn-sm" onClick={() => setIsEdit(true)}>
@@ -107,49 +98,53 @@ const Contacts = () => {
                 </button>
               )}
             </h3>
-            <ul>
+            <ul className="p-0 list-unstyled">
               {isEdit && (
-                <li className="d-flex flex-wrap flex-lg-nowrap mb-2">Hero Image:
+                <li>Image URL:
                   <input
+                    className={`${isEdit ? 'form-control mb-2' : ''}`}
                     type="text" name="heroImg"
                     value={fields.heroImg}
                     onChange={handleChange}
                     disabled={!isEdit}
-                    style={isEdit ? editInputStyles : inputStyles}
+                    style={isEdit ? {} : inputStyles}
                   />
                 </li>
               )}
-              <li className="d-flex flex-wrap flex-lg-nowrap mb-2">E-Mail:
+              <li>E-Mail:
                 <input
+                  className={`${isEdit ? 'form-control mb-2' : ''}`}
                   type="text" name="email"
                   value={fields.email}
                   onChange={handleChange}
                   disabled={!isEdit}
-                  style={isEdit ? editInputStyles : inputStyles}
+                  style={isEdit ? {} : inputStyles}
                 />
               </li>
-              <li className="d-flex flex-wrap flex-lg-nowrap mb-2">Phone:
+              <li>Phone:
                 <input
+                  className={`${isEdit ? 'form-control mb-2' : ''}`}
                   type="text" name="phone"
                   value={fields.phone}
                   onChange={handleChange}
                   disabled={!isEdit}
-                  style={isEdit ? editInputStyles : inputStyles}
+                  style={isEdit ? {} : inputStyles}
                 />
               </li>
-              <li className="d-flex flex-wrap flex-lg-nowrap mb-2">Telegram:
+              <li>Telegram:
                 <input
+                  className={`${isEdit ? 'form-control mb-2' : ''}`}
                   type="text" name="telegram"
                   value={fields.telegram}
                   onChange={handleChange}
                   disabled={!isEdit}
-                  style={isEdit ? editInputStyles : inputStyles}
+                  style={isEdit ? {} : inputStyles}
                 />
               </li>
             </ul>
             {isEdit && (<div className="d-flex gap-2 justify-content-center">
-              <button className="btn btn-primary" onClick={saveChanges}>Save</button>
-              <button className="btn btn-secondary" onClick={resetSettings}>Use defaults</button>
+              <button className="btn btn-primary btn-sm" onClick={saveChanges}>Save</button>
+              <button className="btn btn-secondary btn-sm" onClick={resetSettings}>Use defaults</button>
             </div>)}
           </div>
         </div>

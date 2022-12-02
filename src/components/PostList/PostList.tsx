@@ -106,7 +106,7 @@ const PostList: React.FC<Props> = ({selectedId, needUpdate}) => {
 
   return (
     <div className="col PostList h-100 overflow-auto">
-      <h3>Recent posts</h3>
+      <h3 className="py-3">Recent posts</h3>
       {postsOutput}
     </div>
   );

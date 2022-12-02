@@ -18,7 +18,7 @@ const PostView: React.FC<Props> = (props) => {
       <div className="card-header">
         <h4 className="text-center">{props.title}</h4>
       </div>
-      <div className="card-body py-5" style={{whiteSpace: "pre-wrap"}}>
+      <div className="card-body py-5 overflow-hidden" style={{whiteSpace: "pre-wrap", maxHeight: '12em'}}>
         {props.content}
       </div>
       <div className="card-footer d-flex justify-content-between align-items-center">

@@ -61,7 +61,7 @@ const PostExtended: React.FC<Props> = ({setSelected, onDelete}) => {
       date.toLocaleDateString('en', {dateStyle: 'full'});
 
     output = (
-      <div className="card shadow">
+      <div className="card shadow overflow-auto flex-grow-1">
         <div className="card-header">
           <h5>
             <small className="text-secondary fw-bold me-2 fs-6 fst-italic">Title: </small>
@@ -69,26 +69,26 @@ const PostExtended: React.FC<Props> = ({setSelected, onDelete}) => {
           </h5>
           <small className="py-0 text-secondary"><em className="fw-bold me-2 fs-6">Created: </em>{dateString}</small>
         </div>
-        <div className="card-body py-5" style={{whiteSpace: "pre-wrap"}}>
+        <div className="card-body py-5 overflow-auto" style={{whiteSpace: "pre-wrap"}}>
           <small className="d-block fw-bold mb-3 text-secondary fst-italic">Description: </small>
           {post.content}
         </div>
         <div className="card-footer d-flex gap-2 justify-content-center">
           <Link to="edit" className="btn btn-primary">Edit</Link>
           <button onClick={removePost} className="btn btn-danger">Delete</button>
-          <Link to='..' className="btn btn-secondary">Back</Link>
+          <Link to='..' className="btn btn-secondary">Close</Link>
         </div>
       </div>
     );
   } else
-    output = <div>Couldn't get post information</div>;
+    output = <div className="alert alert-danger text-center">Couldn't get post information</div>;
 
   return (
-    <div className="col">
-      <div className="sticky-top">
+    <div className="col h-100">
+      <div className="sticky-top h-100">
         {outlet || (
-          <div className="col">
-            <h3>Details</h3>
+          <div className="col h-100 d-flex flex-column pb-3">
+            <h3 className="py-3">Details</h3>
             {output}
           </div>
         )}

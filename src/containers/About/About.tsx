@@ -20,9 +20,17 @@ const About = () => {
   const [editedArticleIndex, setEditedArticleIndex] = useState<null | number>(null);
   const [editMode, setEditMode] = useState<boolean[] | null>(null);
   const [fetchMode, setFetchMode] = useState<boolean[] | null>(null);
-
   const [articles, setArticles] = useState<ArticleData[] | null>(null);
   const defaultSettings = useRef<ArticleData[] | null>(null);
+
+  const resetArticle = (index: number) => {
+    setArticles(prev => {
+      const articlesCopy = [...prev!];
+      articlesCopy[index] = defaultSettings.current![index];
+      return articlesCopy;
+    });
+    saveChanges(index);
+  };
 
   const sendData = useCallback(async (index: number) => {
     turnFetchFor(index, true);
@@ -111,8 +119,8 @@ const About = () => {
         turnEdit={() => turnEditModeFor(i, true)}
         switchImgSide={() => switchImgPosFor(i)}
         saveChanges={() => saveChanges(i)}
-
         handleChange={(e) => handleChangeFor(i, e)}
+        resetArticle={() => resetArticle(i)}
         isFetching={checkFetchModeFor(i)}
         isEdit={checkEditModeFor(i)}
       />
@@ -120,7 +128,7 @@ const About = () => {
   }
 
   return (
-    <div className="container">
+    <div className="container py-5">
       {output}
     </div>
   );

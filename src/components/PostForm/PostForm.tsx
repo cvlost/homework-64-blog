@@ -74,8 +74,8 @@ const PostForm: React.FC<Props> = ({onEdit}) => {
   }, [getPost, id]);
 
   return (
-    <form onSubmit={handleSubmit} className="card shadow">
-      <fieldset disabled={isFetching}>
+    <form onSubmit={handleSubmit} className="card shadow flex-grow-1">
+      <fieldset disabled={isFetching} className="h-100 d-flex flex-column">
         <div className="card-header mb-3">
           <label htmlFor="post-title" className="fw-bold text-secondary">Title</label>
           <input
@@ -87,16 +87,15 @@ const PostForm: React.FC<Props> = ({onEdit}) => {
             onChange={handleChange}
           />
         </div>
-        <div className="card-body mb-3">
+        <div className="card-body mb-3 d-flex flex-column">
           <label htmlFor="post-text" className="fw-bold text-secondary">Description</label>
           <textarea
             name="content"
             id="post-text"
-            className="form-control"
+            className="form-control flex-grow-1"
             required
             value={post.content}
             onChange={handleChange}
-            rows={6}
           />
         </div>
         <div className="d-flex gap-2 justify-content-center card-footer">
