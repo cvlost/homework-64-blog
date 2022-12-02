@@ -1,0 +1,46 @@
+.PostList:only-child {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.Post-appear {
+    opacity: 0;
+    transform: translateY(3em);
+}
+
+.Post-appear-active {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 400ms, transform 400ms;
+}
+
+.Post-enter {
+    opacity: 0;
+    transform: translateY(3em);
+}
+
+.Post-enter-active {
+    opacity: 1;
+    transition: opacity .4s, transform .4s;
+    transform: translateY(0);
+}
+
+.Post-enter-done {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.Post-exit {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.Post-exit-active {
+    transform: translateY(-2em);
+    opacity: 0;
+    transition: opacity .4s, transform .4s;
+}
+
+.Post-exit-done {
+    opacity: 0;
+}

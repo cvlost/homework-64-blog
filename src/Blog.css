@@ -12,6 +12,11 @@ code {
   monospace;
 }
 
+.custom-mw {
+  max-width: 500px !important;
+  margin: 0 auto;
+}
+
 .Blog {
   text-align: center;
 }

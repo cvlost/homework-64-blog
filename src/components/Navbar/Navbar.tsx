@@ -5,7 +5,7 @@ const Navbar: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="navbar navbar-expand-sm navbar-dark bg-primary">
+    <div className="navbar navbar-expand-sm navbar-dark bg-dark">
       <div className="container">
         <span
           className="navbar-brand code fw-bold"

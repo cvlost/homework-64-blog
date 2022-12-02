@@ -1,0 +1,41 @@
+.PostView-appear {
+    opacity: 0;
+    transform: translateY(3em);
+}
+
+.PostView-appear-active {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 400ms, transform 400ms;
+}
+
+.PostView-enter {
+    opacity: 0;
+    transform: translateY(3em);
+}
+
+.PostView-enter-active {
+    opacity: 1;
+    transition: opacity .4s, transform .4s;
+    transform: translateY(0);
+}
+
+.PostView-enter-done {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.PostView-exit {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.PostView-exit-active {
+    transform: translateY(3em);
+    opacity: 0;
+    transition: opacity .4s, transform .4s;
+}
+
+.PostView-exit-done {
+    opacity: 0;
+}
