@@ -1,7 +1,6 @@
-import React, {useRef} from 'react';
+import React from 'react';
 import {PostWithId} from "../../types";
 import {Link} from "react-router-dom";
-import {CSSTransition} from "react-transition-group";
 import './PostView.css';
 
 interface Props extends PostWithId {
@@ -15,15 +14,12 @@ const PostView: React.FC<Props> = (props) => {
   const dateString = date.toLocaleDateString('en', {dateStyle: "medium"});
 
   return (
-
     <div className={`card mb-4 shadow ${selectedClass}`}>
       <div className="card-header">
         <h4 className="text-center">{props.title}</h4>
       </div>
       <div className="card-body py-5" style={{whiteSpace: "pre-wrap"}}>
-
         {props.content}
-
       </div>
       <div className="card-footer d-flex justify-content-between align-items-center">
         <small className="fst-italic text-secondary">{dateString}</small>

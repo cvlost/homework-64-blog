@@ -1,13 +1,8 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import axiosApi from "../../axiosApi";
 import Spinner from "../../components/Spinner/Spinner";
 
 interface ContactData {
-  // title: string;
-  // email: string;
-  // telegram: string;
-  // heroImg: string;
-  // phone: string;
   [key: string]: string;
 }
 
@@ -16,17 +11,19 @@ interface Response {
   custom?: ContactData,
 }
 
-
 const Contacts = () => {
   const [fields, setFields] = useState<ContactData | null>(null);
   const [isEdit, setIsEdit] = useState(false);
   const [isFetching, setIsFetching] = useState(false);
+  const defaultSettings = useRef<ContactData | null>(null);
+  const initialRender = useRef(true);
 
   const fetchData = useCallback(async () => {
     setIsFetching(true);
     const response = await axiosApi<Response>('/contacts.json');
     if (response.data !== null) {
       if (response.data.custom) {
+        defaultSettings.current = response.data.default;
         setFields(response.data.custom);
       } else {
         setFields(response.data.default);
@@ -34,6 +31,11 @@ const Contacts = () => {
     }
     setIsFetching(false)
   }, []);
+
+  const resetSettings = () => {
+    setFields(defaultSettings.current);
+    setIsEdit(false);
+  };
 
   const sendData = useCallback(async () => {
     setIsFetching(true);
@@ -48,14 +50,18 @@ const Contacts = () => {
 
   const saveChanges = () => {
     setIsEdit(false);
-    sendData().catch(console.error);
   };
 
   useEffect(() => {
     fetchData().catch(console.error);
   }, [fetchData]);
 
-  let output: React.ReactNode | null = null;
+  useEffect(() => {
+    if (!isEdit && !initialRender.current) sendData().catch(console.error);
+    if (initialRender.current) initialRender.current = false;
+  }, [isEdit, fields, sendData]);
+
+  let output: React.ReactNode | null;
 
   const inputStyles: React.CSSProperties = {
     backgroundColor: 'transparent',
@@ -143,7 +149,7 @@ const Contacts = () => {
             </ul>
             {isEdit && (<div className="d-flex gap-2 justify-content-center">
               <button className="btn btn-primary" onClick={saveChanges}>Save</button>
-              <button className="btn btn-secondary" onClick={() => setIsEdit(false)}>Cancel</button>
+              <button className="btn btn-secondary" onClick={resetSettings}>Use defaults</button>
             </div>)}
           </div>
         </div>

@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Outlet, Route, Routes} from "react-router-dom";
 import Home from "./containers/Home/Home";
 import CreatePost from "./containers/CreatePost/CreatePost";
@@ -8,6 +8,7 @@ import Navbar from "./components/Navbar/Navbar";
 import PostExtended from "./components/Post/PostExtended";
 import PostForm from "./components/PostForm/PostForm";
 import PostDeleted from "./components/Post/PostDeleted";
+import NotFound404 from "./components/NotFound404/NotFound404";
 import './Blog.css';
 
 function Blog() {
@@ -20,7 +21,6 @@ function Blog() {
 
   useEffect(() => {
     if (needUpdate) {
-      console.log('reloading!!!!!!!!!!!!!!!!!!!!!!')
       setNeedUpdate(false);
     }
   }, [needUpdate]);
@@ -60,7 +60,7 @@ function Blog() {
           <Route path="/create" element={<CreatePost/>}/>
           <Route path="/about" element={<About/>}/>
           <Route path="/contacts" element={<Contacts/>}/>
-          <Route path="*" element={<h1>Not found</h1>}/>
+          <Route path="*" element={<NotFound404/>}/>
         </Routes>
       </main>
       <Outlet/>

@@ -16,7 +16,6 @@ const PostExtended: React.FC<Props> = ({setSelected, onDelete}) => {
   const navigate = useNavigate();
 
   const removePost = useCallback(async () => {
-    console.log('removing post: ', id)
     setIsFetching(true);
     await axiosApi.delete(`/posts/${id}.json`);
     setIsFetching(false);
@@ -26,7 +25,6 @@ const PostExtended: React.FC<Props> = ({setSelected, onDelete}) => {
 
   useEffect(() => {
     if (id) setSelected(id);
-
     return () => {
       if (id) setSelected('');
     }

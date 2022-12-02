@@ -74,39 +74,37 @@ const PostForm: React.FC<Props> = ({onEdit}) => {
   }, [getPost, id]);
 
   return (
-
-      <form onSubmit={handleSubmit} className="card shadow">
-        <fieldset disabled={isFetching}>
-          <div className="card-header mb-3">
-            <label htmlFor="post-title" className="fw-bold text-secondary">Title</label>
-            <input
-              type="text"
-              name="title"
-              className="form-control"
-              required
-              value={post.title}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="card-body mb-3">
-            <label htmlFor="post-text" className="fw-bold text-secondary">Description</label>
-            <textarea
-              name="content"
-              id="post-text"
-              className="form-control"
-              required
-              value={post.content}
-              onChange={handleChange}
-              rows={6}
-            />
-          </div>
-          <div className="d-flex gap-2 justify-content-center card-footer">
-            <button type="submit" className="btn btn-primary btn-lg">Post</button>
-            {id ? <Link to=".." type="button" className="btn btn-secondary btn-lg">Cancel</Link> : null}
-          </div>
-        </fieldset>
-      </form>
-
+    <form onSubmit={handleSubmit} className="card shadow">
+      <fieldset disabled={isFetching}>
+        <div className="card-header mb-3">
+          <label htmlFor="post-title" className="fw-bold text-secondary">Title</label>
+          <input
+            type="text"
+            name="title"
+            className="form-control"
+            required
+            value={post.title}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="card-body mb-3">
+          <label htmlFor="post-text" className="fw-bold text-secondary">Description</label>
+          <textarea
+            name="content"
+            id="post-text"
+            className="form-control"
+            required
+            value={post.content}
+            onChange={handleChange}
+            rows={6}
+          />
+        </div>
+        <div className="d-flex gap-2 justify-content-center card-footer">
+          <button type="submit" className="btn btn-primary btn-lg">Post</button>
+          {id ? <Link to=".." type="button" className="btn btn-secondary btn-lg">Cancel</Link> : null}
+        </div>
+      </fieldset>
+    </form>
   );
 };
 

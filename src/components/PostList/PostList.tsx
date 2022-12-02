@@ -33,7 +33,6 @@ const PostList: React.FC<Props> = ({selectedId, needUpdate}) => {
   }, []);
 
   const removePost = useCallback((selectedId: string) => {
-    console.log('Removing post from state')
     const i = posts?.findIndex((post) => post.id === selectedId);
     setPosts(prev => {
       const copy = [...prev!];
@@ -51,7 +50,7 @@ const PostList: React.FC<Props> = ({selectedId, needUpdate}) => {
 
   const fetchSinglePost = useCallback(async () => {
     if (needUpdate) {
-      try{
+      try {
         const response = await axiosApi.get<Post>(`/posts/${selectedId}.json`);
         if (response.data === null) removePost(selectedId);
         else refreshPost(selectedId, response.data);

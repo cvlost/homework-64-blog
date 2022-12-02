@@ -1,59 +1,127 @@
-import React from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
+import Article from "../../components/Article/Article";
+import axiosApi from "../../axiosApi";
+import Spinner from "../../components/Spinner/Spinner";
+
+interface ArticleData {
+  heroImg: string;
+  title: string;
+  content: string;
+  imgLeft: boolean;
+}
+
+interface Response {
+  default: ArticleData[],
+  custom?: ArticleData[],
+}
 
 const About = () => {
+  const [isFetching, setIsFetching] = useState(false);
+  const [editedArticleIndex, setEditedArticleIndex] = useState<null | number>(null);
+  const [editMode, setEditMode] = useState<boolean[] | null>(null);
+  const [fetchMode, setFetchMode] = useState<boolean[] | null>(null);
 
+  const [articles, setArticles] = useState<ArticleData[] | null>(null);
+  const defaultSettings = useRef<ArticleData[] | null>(null);
+
+  const sendData = useCallback(async (index: number) => {
+    turnFetchFor(index, true);
+    await axiosApi.put('/about/custom.json', articles);
+    turnEditModeFor(index, false);
+    turnFetchFor(index, false);
+  }, [articles]);
+
+  useEffect(() => {
+    if (editedArticleIndex !== null) {
+      sendData(editedArticleIndex).catch();
+      setEditedArticleIndex(null);
+    }
+  }, [editedArticleIndex, sendData]);
+
+  const saveChanges = (index: number) => {
+    setEditedArticleIndex(index)
+  };
+
+  const turnFetchFor = (index: number, on: boolean) => {
+    setFetchMode(prev => {
+      const copy = [...prev!];
+      copy[index] = on;
+      return copy;
+    });
+  };
+
+  const switchImgPosFor = (index: number) => {
+    setArticles(prev => {
+      const articlesCopy = [...prev!];
+      articlesCopy[index] = {...articlesCopy[index], imgLeft: !articlesCopy[index].imgLeft};
+      return articlesCopy;
+    })
+  };
+
+  const turnEditModeFor = (index: number, on: boolean) => {
+    setEditMode(prev => {
+      const copy = [...prev!];
+      copy[index] = on;
+      return copy;
+    });
+  };
+
+  const checkEditModeFor = (index: number) => {
+    return editMode![index];
+  };
+
+  const checkFetchModeFor = (index: number) => {
+    return fetchMode![index];
+  };
+
+  const handleChangeFor = (index: number, e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const {name, value} = e.target;
+    const articlesCopy = [...articles!];
+    articlesCopy[index] = {...articlesCopy[index], [name]: value};
+    setArticles(articlesCopy);
+  };
+
+  const fetchData = useCallback(async () => {
+    setIsFetching(true);
+    const response = await axiosApi<Response>('/about.json');
+    if (response.data !== null) {
+      if (response.data.custom) {
+        defaultSettings.current = response.data.default;
+        setArticles(response.data.custom);
+      } else {
+        setArticles(response.data.default);
+      }
+      setEditMode(new Array(response.data.default.length).fill(false));
+      setFetchMode(new Array(response.data.default.length).fill(false));
+    }
+    setIsFetching(false)
+  }, []);
+
+  useEffect(() => {
+    fetchData().catch(console.error);
+  }, [fetchData]);
+
+  let output: React.ReactNode = <Spinner/>
+
+  if (articles !== null && !isFetching) {
+    output = articles.map((article, i) => (
+      <Article
+        key={i}
+        {...article}
+        turnEdit={() => turnEditModeFor(i, true)}
+        switchImgSide={() => switchImgPosFor(i)}
+        saveChanges={() => saveChanges(i)}
+
+        handleChange={(e) => handleChangeFor(i, e)}
+        isFetching={checkFetchModeFor(i)}
+        isEdit={checkEditModeFor(i)}
+      />
+    ))
+  }
 
   return (
     <div className="container">
-      <div className="row h-100 mb-5">
-        <div className="col d-flex">
-          <div className="custom-mw m-auto">
-            <h3 className="border-bottom border-3 text-end mb-3 pb-2">Who Am I</h3>
-            <p>some Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab, aliquid at
-              dolore eveniet ipsa ipsum natus nulla omnis perspiciatis possimus ratione vitae voluptatum.</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab ad asperiores aut
-              corporis dignissimos doloremque eveniet fugiat ipsam iste itaque labore libero  voluptatem! Pariatur!</p>
-          </div>
-        </div>
-        <div className="col d-flex">
-          <img
-            className="m-auto img-fluid"
-            style={{maxHeight: '70vh'}}
-            src="https://i.ibb.co/GC42Hgc/the-big-lebowski-face-woo-aro-transparent.png" alt="avatar"/>
-        </div>
-      </div>
-
-      <div className="row h-100 mb-5">
-        <div className="col d-flex">
-          <img
-            className="m-auto img-fluid"
-            style={{maxHeight: '70vh'}}
-            src="https://i.ibb.co/zZvR3rB/pngegg.png" alt="avatar"/>
-        </div>
-        <div className="col d-flex">
-          <div className="custom-mw m-auto">
-            <h3 className="border-bottom border-3 mb-3 pb-2">Writing about</h3>
-            <p>some Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab, aliquid at
-              dolore eveniet ipsa ipsum natus nulla omnis perspiciatis possimus ratione vitae voluptatum.</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab ad asperiores aut
-              corporis dignissimos doloremque eveniet fugiat ipsam iste itaque labore libero  voluptatem! Pariatur!</p>
-          </div>
-        </div>
-      </div>
-
-      <hr className="mb-5"/>
-
-      <div className="row h-100 mb-5">
-        <div className="custom-mw d-flex">
-          <div className="custom-mw m-auto">
-            <h3 className="border-bottom border-3 text-center mb-3 pb-2">Future comes</h3>
-            <p>some Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab, aliquid at
-              dolore eveniet ipsa ipsum natus nulla omnis perspiciatis possimus ratione vitae voluptatum.</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab ad asperiores aut
-              corporis dignissimos doloremque eveniet fugiat ipsam iste itaque labore libero  voluptatem! Pariatur!</p>
-          </div>
-        </div>
-      </div>
+      {output}
     </div>
   );
 };
