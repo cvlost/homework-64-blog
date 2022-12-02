@@ -75,9 +75,9 @@ const PostForm: React.FC<Props> = ({onEdit}) => {
 
   return (
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="card shadow">
         <fieldset disabled={isFetching}>
-          <div className="form-group mb-3">
+          <div className="card-header mb-3">
             <label htmlFor="post-title" className="fw-bold text-secondary">Title</label>
             <input
               type="text"
@@ -88,8 +88,8 @@ const PostForm: React.FC<Props> = ({onEdit}) => {
               onChange={handleChange}
             />
           </div>
-          <div className="form-group mb-3">
-            <label htmlFor="post-text" className="fw-bold text-secondary">You post</label>
+          <div className="card-body mb-3">
+            <label htmlFor="post-text" className="fw-bold text-secondary">Description</label>
             <textarea
               name="content"
               id="post-text"
@@ -97,10 +97,10 @@ const PostForm: React.FC<Props> = ({onEdit}) => {
               required
               value={post.content}
               onChange={handleChange}
-              rows={5}
+              rows={6}
             />
           </div>
-          <div className="d-flex gap-2 justify-content-center">
+          <div className="d-flex gap-2 justify-content-center card-footer">
             <button type="submit" className="btn btn-primary btn-lg">Post</button>
             {id ? <Link to=".." type="button" className="btn btn-secondary btn-lg">Cancel</Link> : null}
           </div>

@@ -69,7 +69,7 @@ const PostExtended: React.FC<Props> = ({setSelected, onDelete}) => {
             <small className="text-secondary fw-bold me-2 fs-6 fst-italic">Title: </small>
             {post.title}
           </h5>
-          <small className="py-0 text-secondary"><em className="fw-bold me-2 fs-6">Date: </em>{dateString}</small>
+          <small className="py-0 text-secondary"><em className="fw-bold me-2 fs-6">Created: </em>{dateString}</small>
         </div>
         <div className="card-body py-5" style={{whiteSpace: "pre-wrap"}}>
           <small className="d-block fw-bold mb-3 text-secondary fst-italic">Description: </small>
